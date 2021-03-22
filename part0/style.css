@@ -6,13 +6,14 @@ body {
 
   color: black;
 
-  line-height: 14pt;
-
-  padding-left: 5pt;
-
-  padding-right: 5pt;
-
-  padding-top: 5pt;
+  /* Center the form on the page */
+  margin: 0 auto;
+  width: 750px;
+  /* Form outline */
+  padding: 2em;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+  ;
 
 }
 
@@ -85,14 +86,14 @@ form {
   margin: 0 auto;
   width: 500px;
   /* Form outline */
-  padding: 1em;
+  padding: 3em;
   border: 1px solid #CCC;
-  border-radius: 1em;
+  border-radius: 0.5em;
 }
 
 ul {
   list-style: none;
-  padding: 0;
+  padding: 5px;
   margin: 0;
 }
 
