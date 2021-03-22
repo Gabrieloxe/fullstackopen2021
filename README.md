@@ -1,5 +1,7 @@
 # fullstackopen2021
 
-The fullstackopen2021 course by the university of helsinki
+The fullstackopen2021 course by the university of helsinki.
 
-[Full stack open](https://fullstackopen.com/en/)
+Although i have been coding for awhile i thought it would be good to start afresh and get all the fundamentals right.
+
+Following along with this course at [Full stack open 2021](https://fullstackopen.com/en/)
