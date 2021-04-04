@@ -1,4 +1,4 @@
-# Course Info Project
+# Course Info
 
 This is the course info exercise for fullstackopen 2021
 
