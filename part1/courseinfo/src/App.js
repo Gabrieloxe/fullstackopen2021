@@ -63,12 +63,14 @@ const App = () => {
       },
     ],
   };
+  const {name} = course;
+  const {parts} = course;
 
   return (
     <div>
-      <Header course = {course.name} />
-      <Content parts = {course.parts}/>
-      <Total parts = {course.parts}/>
+      <Header course = {name} />
+      <Content parts = {parts}/>
+      <Total parts = {parts}/>
     </div>
   );
 };
