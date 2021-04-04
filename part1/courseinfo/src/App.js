@@ -20,8 +20,8 @@ const Part = (props) => {
 };
 
 const Content = (props) => {
-  console.log(props)
-  const {parts} = props
+  console.log(props);
+  const {parts} = props;
   return (
     <div>
       <Part part={parts[0]} />
@@ -34,7 +34,7 @@ const Content = (props) => {
 const Total = (props) => {
   let total = 0;
   props.parts.forEach(part => {
-    total += part.exercises
+    total += part.exercises;
   });
   return (
     <div>
@@ -62,7 +62,7 @@ const App = () => {
         exercises: 14,
       },
     ],
-  }
+  };
 
   return (
     <div>
