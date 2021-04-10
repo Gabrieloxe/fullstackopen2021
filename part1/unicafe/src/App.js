@@ -1,8 +1,7 @@
-import React, {useState } from 'react';
-
+import React, { useState } from 'react';
 
 const Display = ({ helpers, stats }) => {
-  const {addGood, addBad, addNeutral} = helpers
+  const { addGood, addBad, addNeutral } = helpers;
   return (
     <div>
       <h1>Give Feedback</h1>
@@ -16,21 +15,48 @@ const Display = ({ helpers, stats }) => {
 
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
+const Statistic = ({ value, text }) => {
+  if (text === 'Positive'){
+    return (
+      <tr>
+      <td>{text}:</td><td>{value} %</td>
+    </tr>
+    )
+  }
+  return (
+    <tr>
+      <td>{text}:</td><td>{value}</td>
+    </tr>
+  );
+};
+
 const Statistics = ({ stats }) => {
-  const {good, neutral, bad} = stats
-  const statistics = Object.values(stats)
-  const total = (statistics).reduce(reducer)
-  const average = total / statistics.length
-  const positive = (good / total) * 100
+  const { good, neutral, bad } = stats;
+  const statistics = Object.values(stats);
+  const total = statistics.reduce(reducer);
+  const average = total / statistics.length;
+  const positive = parseFloat(((good / total) * 100.0).toFixed(1));
+
+  // Don't display statistics on first render
+  if (total === 0) {
+    return (
+      <div>
+        <h1>Statistics</h1>
+        No Feedback Given
+      </div>
+    );
+  }
   return (
     <div>
       <h1>Statistics</h1>
-      <div>Good: {good} </div>
-      <div>Neutral: {neutral} </div>
-      <div>Bad: {bad} </div>
-      <div>All: {total} </div>
-      <div>Average: {average} </div>
-      <div>Positive: {positive}% </div>
+      <table>
+        <Statistic value={good} text='Good' />
+        <Statistic value={neutral} text='Neutral' />
+        <Statistic value={bad} text='Bad' />
+        <Statistic value={total} text='All' />
+        <Statistic value={average} text='Average' />
+        <Statistic value={positive} text='Positive' />
+      </table>
     </div>
   );
 };
@@ -45,13 +71,13 @@ const App = () => {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
+  // state change functions
   const addGood = () => setGood(good + 1);
   const addNeutral = () => setNeutral(neutral + 1);
   const addBad = () => setBad(bad + 1);
 
   const stats = { good, neutral, bad };
-  const helpers = { addBad, addGood, addNeutral};
-
+  const helpers = { addBad, addGood, addNeutral };
 
   return (
     <div>
