@@ -1,24 +1,36 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
+
 
 const Display = ({ helpers, stats }) => {
+  const {addGood, addBad, addNeutral} = helpers
   return (
     <div>
       <h1>Give Feedback</h1>
-      <Button handleClick={helpers.addGood} text='Good' />
-      <Button handleClick={helpers.addNeutral} text='Neutral' />
-      <Button handleClick={helpers.addBad} text='Bad' />
+      <Button handleClick={addGood} text='Good' />
+      <Button handleClick={addNeutral} text='Neutral' />
+      <Button handleClick={addBad} text='Bad' />
       <Statistics stats={stats} />
     </div>
   );
 };
 
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
 const Statistics = ({ stats }) => {
+  const {good, neutral, bad} = stats
+  const statistics = Object.values(stats)
+  const total = (statistics).reduce(reducer)
+  const average = total / statistics.length
+  const positive = (good / total) * 100
   return (
     <div>
       <h1>Statistics</h1>
-      <div>Good: {stats.good} </div>
-      <div>Neutral: {stats.neutral} </div>
-      <div>Bad: {stats.bad} </div>
+      <div>Good: {good} </div>
+      <div>Neutral: {neutral} </div>
+      <div>Bad: {bad} </div>
+      <div>All: {total} </div>
+      <div>Average: {average} </div>
+      <div>Positive: {positive}% </div>
     </div>
   );
 };
@@ -39,7 +51,7 @@ const App = () => {
 
   const stats = { good, neutral, bad };
   const helpers = { addBad, addGood, addNeutral};
-  console.log(stats);
+
 
   return (
     <div>
