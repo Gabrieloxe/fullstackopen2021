@@ -16,16 +16,18 @@ const Display = ({ helpers, stats }) => {
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
 const Statistic = ({ value, text }) => {
-  if (text === 'Positive'){
+  if (text === 'Positive') {
     return (
       <tr>
-      <td>{text}:</td><td>{value} %</td>
-    </tr>
-    )
+        <td>{text}:</td>
+        <td>{value} %</td>
+      </tr>
+    );
   }
   return (
     <tr>
-      <td>{text}:</td><td>{value}</td>
+      <td>{text}:</td>
+      <td>{value}</td>
     </tr>
   );
 };
@@ -50,12 +52,14 @@ const Statistics = ({ stats }) => {
     <div>
       <h1>Statistics</h1>
       <table>
-        <Statistic value={good} text='Good' />
-        <Statistic value={neutral} text='Neutral' />
-        <Statistic value={bad} text='Bad' />
-        <Statistic value={total} text='All' />
-        <Statistic value={average} text='Average' />
-        <Statistic value={positive} text='Positive' />
+        <tbody>
+          <Statistic value={good} text='Good' />
+          <Statistic value={neutral} text='Neutral' />
+          <Statistic value={bad} text='Bad' />
+          <Statistic value={total} text='All' />
+          <Statistic value={average} text='Average' />
+          <Statistic value={positive} text='Positive' />
+        </tbody>
       </table>
     </div>
   );
