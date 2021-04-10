@@ -8,8 +8,7 @@ const Header = (props) => {
 
 const Part = (props) => {
   const { part } = props;
-  const { name } = part;
-  const { exercises } = part;
+  const { name, exercises } = part;
   return (
     <>
       <p>
@@ -60,8 +59,7 @@ const App = () => {
     ],
   };
 
-  const { name } = course;
-  const { parts } = course;
+  const { name, parts } = course;
 
   return (
     <div>
