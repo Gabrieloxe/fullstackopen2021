@@ -52,7 +52,7 @@ const App = () => {
     },
   ];
 
-  const output = courses.map((course) => {
+  let output = courses.map((course) => {
     return <Course course={course} key={course.id} />;
   });
 
