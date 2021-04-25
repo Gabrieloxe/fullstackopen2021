@@ -18,26 +18,16 @@ const Part = (props) => {
   );
 };
 
-const Content = (props) => {
-  console.log(props);
-  const { parts } = props;
+const Content = ({ parts }) => {
   const a = parts.map((part, index) => {
     return <Part part={part} key={index} />;
   });
-  console.log(a);
   return <div>{a}</div>;
 };
 
-const Total = (props) => {
-  let total = 0;
-  props.parts.forEach((part) => {
-    total += part.exercises;
-  });
-  return (
-    <div>
-      <p>Number of exercises {total}</p>
-    </div>
-  );
+const Total = ({ parts }) => {
+  const total = parts.reduce((sum, part) => sum + part.exercises, 0);
+  return <p>Number of exercises {total}</p>;
 };
 
 const App = () => {
