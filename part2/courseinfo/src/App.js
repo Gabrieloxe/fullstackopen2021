@@ -11,9 +11,10 @@ const Total = ({ course }) => {
 };
 
 const Part = ({ part }) => {
+  const {name, exercises} = part
   return (
     <p>
-      {part.name} {part.exercises}
+      {name} {exercises}
     </p>
   );
 };
