@@ -1,66 +1,65 @@
 import './App.css';
+import React from 'react';
+import Course from './components/course';
 
-const Header = ({ course }) => {
-  return <h1>{course.name}</h1>;
-};
-
-const Total = ({ course }) => {
-  const all_parts = course.parts;
-  const totalExercises = all_parts.reduce((sum, part) => sum + part.exercises, 0);
-  return <p>Number of exercises {totalExercises}</p>;
-};
-
-const Part = ({ part }) => {
-  const {name, exercises} = part
-  return (
-    <p>
-      {name} {exercises}
-    </p>
-  );
-};
-
-const Content = ({ course }) => {
-  const { parts } = course;
-  const display = parts.map((part) => {
-    return <Part part={part} key={part.id} />;
-  });
-  return <div>{display}</div>;
-};
-
-const Course = ({ course }) => {
-  return (
-    <div>
-      <Header course={course}/>
-      <Content course ={course}/>
-      <Total course={course}/>
-    </div>
-  );
+const Title = ({ title }) => {
+  return <h1>{title}</h1>;
 };
 
 const App = () => {
-  const course = {
-    id: 1,
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id: 1,
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id: 2,
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id: 3,
-      },
-    ],
-  };
+  const courses = [
+    {
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1,
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2,
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3,
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4,
+        },
+      ],
+    },
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1,
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2,
+        },
+      ],
+    },
+  ];
 
-  return <Course course={course} />;
+  const output = courses.map((course) => {
+    return <Course course={course} key={course.id} />;
+  });
+
+  // add the title
+  output.unshift(<Title title='Web Development Cirriculum' key='title' />);
+
+  return output;
 };
 
 export default App;
