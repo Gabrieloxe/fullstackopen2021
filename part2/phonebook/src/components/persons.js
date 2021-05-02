@@ -11,7 +11,6 @@ const Contact = ({ person }) => {
   const Persons = ({ persons }) => {
     return (
       <div>
-        <h2>Numbers</h2>
         <ul>
           {persons.map((person) => (
             <Contact key={person.name} person={person} />

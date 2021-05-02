@@ -10,7 +10,6 @@ const PersonForm = ({
   }) => {
     return (
       <form onSubmit={addContact}>
-        <h2>Add a new</h2>
         <div>
           Name: <input value={newName} onChange={handleNameChange} />
         </div>
