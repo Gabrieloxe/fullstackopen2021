@@ -31,19 +31,25 @@ const Language = ({ language }) => {
   return <li>{language.name}</li>;
 };
 
+const NamesList = ({countries}) =>{
+  const names = countries.map((country) => {
+    return (<div>{country.name}</div>);
+  });
+  return <div>{names}</div>;
+}
+
 const Display = ({ countries }) => {
   if (countries.length > 10) {
     return <div>Too many matches specifiy another filter</div>;
   } else if (countries.length === 1) {
     const country = countries[0];
-    return <Country country={country} key={country.alpha2Code} />;
+    return <Country country={country} key={country.numericCode} />;
   } else {
-    const names = countries.map((country) => {
-      return <li>{country.name}</li>;
-    });
-    return <ul>{names}</ul>;
+    const numericCodes = countries.map(country => country.numericCode);
+    return <NamesList countries={countries} key={numericCodes}/>
   }
 };
+
 
 
 const App = () => {
@@ -74,7 +80,7 @@ const App = () => {
   return (
     <div>
       <CountryFilter filter={filter} handleFilterChange={handleFilterChange} />
-      <Display countries={filteredCountries} key={countries.index} />
+      <Display countries={filteredCountries}/>
     </div>
   );
 };
