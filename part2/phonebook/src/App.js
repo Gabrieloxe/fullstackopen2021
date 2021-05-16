@@ -45,7 +45,7 @@ const App = () => {
         setPersons(persons.concat(returnedContact));
         setNewName('');
         setNewNumber('');
-        window.location.reload();
+        event.target.reset();
       });
     }
   };
