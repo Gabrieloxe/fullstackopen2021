@@ -29,6 +29,18 @@
       "date": "2021-05-16T05:02:54.420Z",
       "important": true,
       "id": 5
+    },
+    {
+      "content": "note to be added",
+      "date": "2021-05-16T08:15:57.537Z",
+      "important": false,
+      "id": 6
+    },
+    {
+      "content": "why does it clear here",
+      "date": "2021-05-16T08:16:40.010Z",
+      "important": true,
+      "id": 7
     }
   ]
 }

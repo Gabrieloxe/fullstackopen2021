@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Persons from './components/persons';
 import PersonForm from './components/personForm';
 import Filter from './components/filter';
-import axios from 'axios';
+import contactService from './services/contacts';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,16 +11,10 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [filterValue, setFitlerValue] = useState('');
 
-
   const hook = () => {
-    console.log('effect');
-
-    const eventHandler = (response) => {
-      console.log('promise fulfilled');
-      setPersons(response.data);
-    };
-
-    axios.get('http://localhost:3001/persons').then(eventHandler);
+    contactService.getAll().then((returnedContacts) => {
+      setPersons(returnedContacts);
+    });
   };
 
   useEffect(hook, []);
@@ -47,9 +41,22 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      setPersons(persons.concat(contact));
-      setNewName('');
-      setNewNumber('');
+      contactService.create(contact).then((returnedContact) => {
+        setPersons(persons.concat(returnedContact));
+        setNewName('');
+        setNewNumber('');
+        window.location.reload();
+      });
+    }
+  };
+
+  const deleteContact = (contact) => {
+    if (window.confirm(`Delete ${contact.name}? `)) {
+      console.log(`deleting note id: ${contact.id}`);
+      contactService.remove(contact.id).then((deletionResponse) => {
+        console.log(deletionResponse);
+        setPersons(persons.filter((person) => person.id !== contact.id));
+      });
     }
   };
 
@@ -71,11 +78,11 @@ const App = () => {
         newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
-        number={handleNumberChange}
+        handleNumberChange={handleNumberChange}
       />
 
       <h3>Numbers</h3>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} deleteContact={deleteContact} />
     </div>
   );
 };
