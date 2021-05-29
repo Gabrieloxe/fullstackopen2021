@@ -35,9 +35,9 @@ const App = () => {
     event.preventDefault();
     const names = persons.map((person) => person.name);
     if (names.includes(newName)) {
-      let toBeUpdated = persons.find(person=> person.name === newName);
+      let toBeUpdated = persons.find((person) => person.name === newName);
       toBeUpdated.number = newNumber;
-      updateContact(toBeUpdated,toBeUpdated.id);
+      updateContact(toBeUpdated, toBeUpdated.id);
     } else {
       const contact = {
         name: newName,
@@ -47,7 +47,7 @@ const App = () => {
         setPersons(persons.concat(returnedContact));
         setNewName('');
         setNewNumber('');
-        hook();
+        window.location.reload();
       });
     }
   };
@@ -56,17 +56,23 @@ const App = () => {
     if (window.confirm(`Delete ${contact.name}? `)) {
       console.log(`deleting note id: ${contact.id}`);
       contactService.remove(contact.id).then((deletionResponse) => {
-        console.log(deletionResponse);
         setPersons(persons.filter((person) => person.id !== contact.id));
       });
     }
   };
 
   const updateContact = (contact, id) => {
-    if (window.confirm(`${newName} is already added to phonebook replace the old number with a new one?`)) {
+    if (
+      window.confirm(
+        `${newName} is already added to phonebook replace the old number with a new one?`
+      )
+    ) {
       contactService.update(contact, id).then((updateResponse) => {
-        setPersons(persons.filter((person) => person.id !== contact.id));
-        hook();
+        setPersons(
+          persons.map((person) =>
+            person.id !== updateResponse.id ? person : updateResponse
+          )
+        );
       });
     }
   };
