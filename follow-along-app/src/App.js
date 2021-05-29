@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Note from './components/Note';
 import Notification from './components/Notification';
 import noteService from './services/notes';
@@ -35,17 +34,13 @@ const App = (props) => {
   };
 
   const handleNoteChange = (event) => {
-    console.log(event.target.value);
     setNewNote(event.target.value);
   };
 
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/notes/${id}`;
     const selectedNote = notes.find((note) => note.id === id);
-    console.log(`importance of ' + ${id} + ' needs to be toggled`);
     const changedNote = { ...selectedNote, important: !selectedNote.important };
-
-    axios.put(url, changedNote).then((returnedNote) => {
+    noteService.update(id, changedNote).then((returnedNote) => {
       setNotes(notes.map((note) => (note.id !== id ? note : returnedNote)));
     }).catch(error => {
       setErrorMessage(
@@ -57,6 +52,15 @@ const App = (props) => {
       setNotes(notes.filter(note => note.id !== id))
     });
   };
+
+  const deleteNote = (note, id) =>{
+    if (window.confirm(`Delete note:  ${note.content}? `)) {
+      noteService.remove(note.id).then((deletionResponse) => {
+        const notesUpdate = notes.filter((note) => note.id !== id);
+        setNotes(notesUpdate);
+      });
+    }
+  }
 
   const notesToShow = showAll
     ? notes
@@ -77,6 +81,7 @@ const App = (props) => {
             key={note.id}
             note={note}
             toggleImportance={() => toggleImportanceOf(note.id)}
+            deleteNote={() => deleteNote(note, note.id)}
           />
         ))}
       </ul>

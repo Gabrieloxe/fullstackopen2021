@@ -2,14 +2,18 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import Persons from './components/persons';
 import PersonForm from './components/personForm';
+import Notification from './components/Notification';
 import Filter from './components/filter';
 import contactService from './services/contacts';
+import './index.css'
+
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filterValue, setFitlerValue] = useState('');
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const hook = () => {
     contactService.getAll().then((returnedContacts) => {
@@ -47,7 +51,10 @@ const App = () => {
         setPersons(persons.concat(returnedContact));
         setNewName('');
         setNewNumber('');
-        window.location.reload();
+        setSuccessMessage(`${contact.name} has been added`);
+        setTimeout(() => {
+          setSuccessMessage(null);
+        }, 5000);
       });
     }
   };
@@ -84,6 +91,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} />
       <Filter
         filterValue={filterValue}
         handleFilterChange={handleFilterChange}

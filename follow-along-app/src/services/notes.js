@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseURL = 'http://localhost:3001/notes/';
+const baseURL = 'http://localhost:3001/notes';
 
 const getAll = () => {
   const request = axios.get(baseURL);
@@ -12,25 +12,26 @@ const getAll = () => {
   return request.then(response => response.data.concat(nonExisting));
 };
 
-const getAll2 = () => {
-  const request = axios.get(baseURL)
-  return request.then(response => response.data);
-}
-
 const create = (newObject) => {
   const request = axios.post(baseURL, newObject);
   return request.then(response => response.data);
 };
 
 const update = (id, newObject) => {
-  const request = axios.put(`baseURL/${id}`, newObject);
+  const request = axios.put(`${baseURL}/${id}`, newObject);
   return request.then(response => response.data);
 };
+
+const remove = (id) =>{
+  const request = axios.delete(`${baseURL}/${id}`);
+  return request.then(response=> response.data);
+}
 
 const noteService = {
     getAll,
     create,
-    update
+    update,
+    remove
 };
 
 export default noteService;
