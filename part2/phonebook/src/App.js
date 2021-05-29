@@ -10,9 +10,8 @@ import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
-  const [newName, setNewName] = useState('');
-  const [newNumber, setNewNumber] = useState('');
   const [filterValue, setFitlerValue] = useState('');
+  const [form , setForm] = useState({name: null , number: null})
   const [successMessage, setSuccessMessage] = useState(null);
 
   const hook = () => {
@@ -23,13 +22,16 @@ const App = () => {
 
   useEffect(hook, []);
 
-  const handleNameChange = (event) => {
-    setNewName(event.target.value);
-  };
+  const handleFormChange = (event) =>{
+    const target = event.target;
+    const name = target.name;
 
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value);
-  };
+    if (name === 'name'){
+      setForm({name: target.value , number: form.number})
+    } else if (name === 'number'){
+      setForm({name: form.name , number: target.value})
+    }
+  }
 
   const handleFilterChange = (event) => {
     setFitlerValue(event.target.value);
@@ -38,24 +40,23 @@ const App = () => {
   const addContact = (event) => {
     event.preventDefault();
     const names = persons.map((person) => person.name);
-    if (names.includes(newName)) {
-      const toBeUpdated = persons.find((person) => person.name === newName);
-      toBeUpdated.number = newNumber;
+    if (names.includes(form.name)) {
+      const toBeUpdated = persons.find((person) => person.name === form.name);
+      toBeUpdated.number = form.number;
       updateContact(toBeUpdated, toBeUpdated.id);
     } else {
       const contact = {
-        name: newName,
-        number: newNumber,
+        name: form.name,
+        number: form.number
       };
       contactService.create(contact).then((returnedContact) => {
         setPersons(persons.concat(returnedContact));
-        setNewName('');
-        setNewNumber('');
         setSuccessMessage(`${contact.name} has been added`);
         setTimeout(() => {
           setSuccessMessage(null);
         }, 5000);
       });
+      setForm({name: null , number: null});
     }
   };
 
@@ -72,7 +73,7 @@ const App = () => {
   const updateContact = (contact, id) => {
     if (
       window.confirm(
-        `${newName} is already added to phonebook replace the old number with a new one?`
+        `${form.name} is already added to phonebook replace the old number with a new one?`
       )
     ) {
       contactService.update(contact, id).then((updateResponse) => {
@@ -100,10 +101,8 @@ const App = () => {
       <h3>Add a new</h3>
       <PersonForm
         addContact={addContact}
-        newName={newName}
-        handleNameChange={handleNameChange}
-        newNumber={newNumber}
-        handleNumberChange={handleNumberChange}
+        form = {form}
+        handleFormChange={handleFormChange}
       />
 
       <h3>Numbers</h3>

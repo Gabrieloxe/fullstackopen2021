@@ -2,18 +2,16 @@ import React from "react";
 
 const PersonForm = ({
     addContact,
-    newName,
-    handleNameChange,
-    newNumber,
-    handleNumberChange,
+    form,
+    handleFormChange,
   }) => {
     return (
       <form onSubmit={addContact}>
         <div>
-          Name: <input defaultValue={newName} onChange={handleNameChange} />
+          Name: <input name='name' defaultValue={form.name} onChange={handleFormChange} />
         </div>
         <div>
-          Number: <input defaultValue={newNumber} onChange={handleNumberChange} />
+          Number: <input name='number' defaultValue={form.number} onChange={handleFormChange} />
         </div>
         <div>
           <button type='submit'>add</button>
