@@ -47,6 +47,18 @@
       "date": "2021-05-29T15:05:19.459Z",
       "important": false,
       "id": 8
+    },
+    {
+      "content": "I am testing the form clearing",
+      "date": "2021-05-29T15:25:39.910Z",
+      "important": false,
+      "id": 9
+    },
+    {
+      "content": "a new note...",
+      "date": "2021-05-29T15:33:51.713Z",
+      "important": true,
+      "id": 10
     }
   ]
 }

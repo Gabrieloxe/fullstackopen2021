@@ -17,8 +17,6 @@ const App = (props) => {
   };
   useEffect(hook, []);
 
-  console.log('render', notes.length, 'notes');
-
   const addNote = (event) => {
     event.preventDefault();
     const noteObject = {
@@ -53,9 +51,9 @@ const App = (props) => {
     });
   };
 
-  const deleteNote = (note, id) =>{
-    if (window.confirm(`Delete note:  ${note.content}? `)) {
-      noteService.remove(note.id).then((deletionResponse) => {
+  const deleteNote = (noteToDelete, id) =>{
+    if (window.confirm(`Delete note:  ${noteToDelete.content}? `)) {
+      noteService.remove(id).then((deletionResponse) => {
         const notesUpdate = notes.filter((note) => note.id !== id);
         setNotes(notesUpdate);
       });
