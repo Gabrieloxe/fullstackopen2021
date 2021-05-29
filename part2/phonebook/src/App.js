@@ -35,7 +35,7 @@ const App = () => {
     event.preventDefault();
     const names = persons.map((person) => person.name);
     if (names.includes(newName)) {
-      let toBeUpdated = persons.find((person) => person.name === newName);
+      const toBeUpdated = persons.find((person) => person.name === newName);
       toBeUpdated.number = newNumber;
       updateContact(toBeUpdated, toBeUpdated.id);
     } else {
@@ -56,7 +56,8 @@ const App = () => {
     if (window.confirm(`Delete ${contact.name}? `)) {
       console.log(`deleting note id: ${contact.id}`);
       contactService.remove(contact.id).then((deletionResponse) => {
-        setPersons(persons.filter((person) => person.id !== contact.id));
+        const personsUpdate = persons.filter((person) => person.id !== contact.id);
+        setPersons(personsUpdate);
       });
     }
   };
@@ -68,11 +69,10 @@ const App = () => {
       )
     ) {
       contactService.update(contact, id).then((updateResponse) => {
-        setPersons(
-          persons.map((person) =>
-            person.id !== updateResponse.id ? person : updateResponse
-          )
+        const personsUpdate = persons.map((person) =>
+          person.id !== updateResponse.id ? person : updateResponse
         );
+        setPersons(personsUpdate);
       });
     }
   };
