@@ -56,8 +56,9 @@ const App = () => {
           setSuccessMessage(null);
         }, 5000);
       });
-      setForm({name: null , number: null});
     }
+    const freshForm = {name: "" , number: ""}
+    setForm(freshForm);
   };
 
   const deleteContact = (contact) => {
