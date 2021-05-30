@@ -2,17 +2,17 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import Persons from './components/persons';
 import PersonForm from './components/personForm';
-import Notification from './components/Notification';
+import { Success, Error } from './components/Notification';
 import Filter from './components/filter';
 import contactService from './services/contacts';
-import './index.css'
-
+import './index.css';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [filterValue, setFitlerValue] = useState('');
-  const [form , setForm] = useState({name: null , number: null})
+  const [form, setForm] = useState({ name: null, number: null });
   const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const hook = () => {
     contactService.getAll().then((returnedContacts) => {
@@ -22,16 +22,16 @@ const App = () => {
 
   useEffect(hook, []);
 
-  const handleFormChange = (event) =>{
+  const handleFormChange = (event) => {
     const target = event.target;
     const name = target.name;
 
-    if (name === 'name'){
-      setForm({name: target.value , number: form.number})
-    } else if (name === 'number'){
-      setForm({name: form.name , number: target.value})
+    if (name === 'name') {
+      setForm({ name: target.value, number: form.number });
+    } else if (name === 'number') {
+      setForm({ name: form.name, number: target.value });
     }
-  }
+  };
 
   const handleFilterChange = (event) => {
     setFitlerValue(event.target.value);
@@ -47,7 +47,7 @@ const App = () => {
     } else {
       const contact = {
         name: form.name,
-        number: form.number
+        number: form.number,
       };
       contactService.create(contact).then((returnedContact) => {
         setPersons(persons.concat(returnedContact));
@@ -57,7 +57,7 @@ const App = () => {
         }, 5000);
       });
     }
-    const freshForm = {name: "" , number: ""}
+    const freshForm = { name: '', number: '' };
     setForm(freshForm);
   };
 
@@ -65,7 +65,9 @@ const App = () => {
     if (window.confirm(`Delete ${contact.name}? `)) {
       console.log(`deleting note id: ${contact.id}`);
       contactService.remove(contact.id).then((deletionResponse) => {
-        const personsUpdate = persons.filter((person) => person.id !== contact.id);
+        const personsUpdate = persons.filter(
+          (person) => person.id !== contact.id
+        );
         setPersons(personsUpdate);
       });
     }
@@ -77,12 +79,23 @@ const App = () => {
         `${form.name} is already added to phonebook replace the old number with a new one?`
       )
     ) {
-      contactService.update(contact, id).then((updateResponse) => {
-        const personsUpdate = persons.map((person) =>
-          person.id !== updateResponse.id ? person : updateResponse
-        );
-        setPersons(personsUpdate);
-      });
+      contactService
+        .update(contact, id)
+        .then((updateResponse) => {
+          const personsUpdate = persons.map((person) =>
+            person.id !== updateResponse.id ? person : updateResponse
+          );
+          setPersons(personsUpdate);
+        })
+        .catch((error) => {
+          setErrorMessage(
+            `Contact '${contact.name}' was already removed from server`
+          );
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+          setPersons(persons.filter((person) => person.id !== id));
+        });
     }
   };
 
@@ -93,7 +106,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Success message={successMessage} />
+      <Error message={errorMessage} />
       <Filter
         filterValue={filterValue}
         handleFilterChange={handleFilterChange}
@@ -102,7 +116,7 @@ const App = () => {
       <h3>Add a new</h3>
       <PersonForm
         addContact={addContact}
-        form = {form}
+        form={form}
         handleFormChange={handleFormChange}
       />
 
