@@ -5,6 +5,7 @@ const PersonForm = ({
     form,
     handleFormChange,
   }) => {
+
     return (
       <form onSubmit={handleFormSubmit}>
         <div>

@@ -17,11 +17,10 @@ const App = () => {
   const hook = () => {
     contactService.getAll().then((returnedContacts) => {
       setPersons(returnedContacts);
-      setForm('')
     });
   };
 
-  useEffect(hook, [persons, form]);
+  useEffect(hook, []);
 
   const handleFormChange = (event) => {
     const value = event.target.value;
@@ -102,8 +101,6 @@ const App = () => {
       addContact();
     }
   }
-
-
 
   return (
     <div>
