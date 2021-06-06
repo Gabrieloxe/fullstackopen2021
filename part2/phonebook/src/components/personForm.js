@@ -1,12 +1,12 @@
 import React from "react";
 
 const PersonForm = ({
-    addContact,
+    handleFormSubmit,
     form,
     handleFormChange,
   }) => {
     return (
-      <form onSubmit={addContact}>
+      <form onSubmit={handleFormSubmit}>
         <div>
           Name: <input name='name' defaultValue={form.name} onChange={handleFormChange} />
         </div>

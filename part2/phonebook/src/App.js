@@ -10,53 +10,41 @@ import './index.css';
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [filterValue, setFitlerValue] = useState('');
-  const [form, setForm] = useState({ name: null, number: null });
+  const [form, setForm] = useState({ name: '', number: '' });
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const hook = () => {
     contactService.getAll().then((returnedContacts) => {
       setPersons(returnedContacts);
+      setForm('')
     });
   };
 
-  useEffect(hook, []);
+  useEffect(hook, [persons, form]);
 
   const handleFormChange = (event) => {
-    const target = event.target;
-    const name = target.name;
-
-    if (name === 'name') {
-      setForm({ name: target.value, number: form.number });
-    } else if (name === 'number') {
-      setForm({ name: form.name, number: target.value });
-    }
+    const value = event.target.value;
+    const name = event.target.name;
+    setForm({ ...form, [name]: value});
   };
 
   const handleFilterChange = (event) => {
     setFitlerValue(event.target.value);
   };
 
-  const addContact = (event) => {
-    event.preventDefault();
-    const names = persons.map((person) => person.name);
-    if (names.includes(form.name)) {
-      const toBeUpdated = persons.find((person) => person.name === form.name);
-      toBeUpdated.number = form.number;
-      updateContact(toBeUpdated, toBeUpdated.id);
-    } else {
-      const contact = {
-        name: form.name,
-        number: form.number,
-      };
-      contactService.create(contact).then((returnedContact) => {
-        setPersons(persons.concat(returnedContact));
-        setSuccessMessage(`${contact.name} has been added`);
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 5000);
-      });
-    }
+  const addContact = () => {
+    const contact = {
+      name: form.name,
+      number: form.number,
+    };
+    contactService.create(contact).then((returnedContact) => {
+      setPersons(persons.concat(returnedContact));
+      setSuccessMessage(`${contact.name} has been added`);
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
+    });
     const freshForm = { name: '', number: '' };
     setForm(freshForm);
   };
@@ -103,6 +91,20 @@ const App = () => {
     person.name.toLowerCase().includes(filterValue.toLowerCase())
   );
 
+  const handleFormSubmit = (event) =>{
+    event.preventDefault();
+    const names = persons.map((person) => person.name);
+    if (names.includes(form.name)) {
+      const toBeUpdated = persons.find((person) => person.name === form.name);
+      toBeUpdated.number = form.number;
+      updateContact(toBeUpdated, toBeUpdated.id);
+    } else {
+      addContact();
+    }
+  }
+
+
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -115,7 +117,7 @@ const App = () => {
 
       <h3>Add a new</h3>
       <PersonForm
-        addContact={addContact}
+        handleFormSubmit={handleFormSubmit}
         form={form}
         handleFormChange={handleFormChange}
       />
