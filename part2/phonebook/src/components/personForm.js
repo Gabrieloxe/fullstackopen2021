@@ -10,7 +10,7 @@ const PersonForm = ({
     contactService
 
   }) => {
-
+    
     const addContact = () => {
       const contact = {
         name: form.name,
@@ -23,8 +23,7 @@ const PersonForm = ({
           setSuccessMessage(null);
         }, 5000);
       });
-      const freshForm = { name: '', number: '' };
-      setForm(freshForm);
+      setForm({ name: '', number: '' });
     };
 
     const updateContact = (contact, id) => {
@@ -70,6 +69,7 @@ const PersonForm = ({
         addContact();
       }
     }
+
 
     return (
       <form onSubmit={handleFormSubmit}>
