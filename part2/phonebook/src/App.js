@@ -10,7 +10,6 @@ import './index.css';
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [filterValue, setFitlerValue] = useState('');
-  const [form, setForm] = useState({ name: '', number: '' });
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -44,8 +43,6 @@ const App = () => {
       <PersonForm
         persons={persons}
         setPersons={setPersons}
-        form={form}
-        setForm={setForm}
         setErrorMessage={setErrorMessage}
         setSuccessMessage={setSuccessMessage}
         contactService={contactService}

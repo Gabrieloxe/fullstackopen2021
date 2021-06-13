@@ -1,16 +1,16 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 const PersonForm = ({
     persons,
-    form,
-    setForm,
     setPersons,
     setErrorMessage,
     setSuccessMessage,
     contactService
 
   }) => {
-    
+
+    const [form, setForm] = useState({ name: '', number: '' });
+
     const addContact = () => {
       const contact = {
         name: form.name,
@@ -23,7 +23,6 @@ const PersonForm = ({
           setSuccessMessage(null);
         }, 5000);
       });
-      setForm({ name: '', number: '' });
     };
 
     const updateContact = (contact, id) => {
@@ -69,6 +68,10 @@ const PersonForm = ({
         addContact();
       }
     }
+
+    useEffect(() => {
+      setForm({ name: '', number: '' });
+    }, [persons])
 
 
     return (
