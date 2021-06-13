@@ -38,6 +38,10 @@ const PersonForm = ({
               person.id !== updateResponse.id ? person : updateResponse
             );
             setPersons(personsUpdate);
+            setSuccessMessage(`${contact.name} has been updated`);
+            setTimeout(() => {
+              setSuccessMessage(null);
+            }, 5000);
           })
           .catch((error) => {
             setErrorMessage(
