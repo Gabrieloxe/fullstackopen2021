@@ -9,7 +9,7 @@ const PersonForm = ({
 
   }) => {
 
-    const [form, setForm] = useState({ name: '', number: '' });
+    const [form, setForm] = useState({ name: "", number: "" });
 
     const addContact = () => {
       const contact = {
@@ -77,10 +77,10 @@ const PersonForm = ({
     return (
       <form onSubmit={handleFormSubmit}>
         <div>
-          Name: <input name='name' defaultValue={form.name} onChange={handleFormChange} />
+          Name: <input name='name' value={form.name} onChange={handleFormChange} />
         </div>
         <div>
-          Number: <input name='number' defaultValue={form.number} onChange={handleFormChange} />
+          Number: <input name='number' value={form.number} onChange={handleFormChange} />
         </div>
         <div>
           <button type='submit'>add</button>
