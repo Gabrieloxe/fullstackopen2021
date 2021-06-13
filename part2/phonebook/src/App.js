@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import Persons from './components/persons';
 import PersonForm from './components/personForm';
-import { Success, Error } from './components/Notification';
+import Notification from './components/Notification';
 import Filter from './components/filter';
 import contactService from './services/contacts';
 import './index.css';
@@ -10,8 +10,7 @@ import './index.css';
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [filterValue, setFitlerValue] = useState('');
-  const [successMessage, setSuccessMessage] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   const hook = () => {
     contactService.getAll().then((returnedContacts) => {
@@ -29,11 +28,17 @@ const App = () => {
     person.name.toLowerCase().includes(filterValue.toLowerCase())
   );
 
+  const notify = (message, type='success') => {
+    setNotification({message, type});
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <Success message={successMessage} />
-      <Error message={errorMessage} />
+      <Notification notification={notification}/>
       <Filter
         filterValue={filterValue}
         handleFilterChange={handleFilterChange}
@@ -43,8 +48,8 @@ const App = () => {
       <PersonForm
         persons={persons}
         setPersons={setPersons}
-        setErrorMessage={setErrorMessage}
-        setSuccessMessage={setSuccessMessage}
+        notify={notify}
+        notifcation={notification}
         contactService={contactService}
       />
 

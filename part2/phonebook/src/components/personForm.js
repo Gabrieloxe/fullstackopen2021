@@ -3,9 +3,8 @@ import React, {useState, useEffect} from "react";
 const PersonForm = ({
     persons,
     setPersons,
-    setErrorMessage,
-    setSuccessMessage,
-    contactService
+    contactService,
+    notify
 
   }) => {
 
@@ -18,10 +17,7 @@ const PersonForm = ({
       };
       contactService.create(contact).then((returnedContact) => {
         setPersons(persons.concat(returnedContact));
-        setSuccessMessage(`${contact.name} has been added`);
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 5000);
+        notify(`${contact.name} has been added`);
       });
     };
 
@@ -38,19 +34,11 @@ const PersonForm = ({
               person.id !== updateResponse.id ? person : updateResponse
             );
             setPersons(personsUpdate);
-            setSuccessMessage(`${contact.name} has been updated`);
-            setTimeout(() => {
-              setSuccessMessage(null);
-            }, 5000);
+            notify(`${contact.name} has been updated`);
           })
           .catch((error) => {
-            setErrorMessage(
-              `Contact '${contact.name}' was already removed from server`
-            );
-            setTimeout(() => {
-              setErrorMessage(null);
-            }, 5000);
             setPersons(persons.filter((person) => person.id !== id));
+            notify(`Contact '${contact.name}' was already removed from server`, 'error');
           });
       }
     };
