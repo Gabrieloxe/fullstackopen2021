@@ -1,5 +1,7 @@
 # Notes Backend
 
+App can be found at [Notes App](https://radiant-meadow-03252.herokuapp.com/)
+
 ## To set up
 
 - `npm install`
@@ -18,3 +20,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
 ```
+
+## Available commands
+
+- `npm run build:ui`
+- `npm run deploy`
+- `npm run deploy:full`
+- `npm run logs:prod`
