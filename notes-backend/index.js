@@ -101,7 +101,7 @@ app.put('/api/notes/:id', (request, response) => {
   const idExist = notes.find(n => n.id === id);
 
   if(!idExist){
-    return response.status(404).end();
+    response.status(404).end();
   }
 
   notes = notes.filter(n => n.id !== id);

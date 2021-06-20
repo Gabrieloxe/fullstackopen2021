@@ -8,7 +8,7 @@ const PersonForm = ({
 
   }) => {
 
-    const [form, setForm] = useState({ name: "", number: "" });
+    const [form, setForm] = useState({ name: null, number: null });
 
     const addContact = () => {
       const contact = {
