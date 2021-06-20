@@ -39,7 +39,7 @@ let persons = [
 ];
 
 app.get('/', (request, response) => {
-  response.json('<h1>Hello World</h1>');
+  response.send('<h1>Hello World!</h1>');
 });
 
 app.get('/api/persons', (request, response) => {
