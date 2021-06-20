@@ -7,12 +7,31 @@ content-type: application/json
     "important": false
 }
 
+### Test invalid note
+POST http://localhost:3001/api/notes
+content-type: application/json
+
+{
+    "content": null,
+    "important": false
+}
+
+### Test put functionality
+PUT http://localhost:3001/api/notes/3
+content-type: application/json
+
+{
+    "content": "you can modify the content of notes with put",
+    "important": false
+}
+
+
 ### get all notes
 GET http://localhost:3001/api/notes
 
 ### Retrieve a note
+GET http://localhost:3001/api/notes/1
 
-GET http://localhost:3001/api/notes/2
 
 ### Delete a note
 DELETE http://localhost:3001/api/notes/2

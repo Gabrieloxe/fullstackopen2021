@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 app.use(express.json());
+app.use(cors());
+app.use(express.static('build'))
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method);
@@ -79,11 +82,40 @@ app.get('/api/notes/:id', (request, response) => {
   }
 });
 
-app.delete('/api/notes/:id', (request, response)=>{
+app.delete('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id);
     notes = notes.filter(note => note.id !== id);
     response.status(204).end()
-})
+});
+
+app.put('/api/notes/:id', (request, response) => {
+  const body = request.body;
+
+  if(!body.content) {
+    return response.status(400).json({
+      error: 'content missing'
+    });
+  }
+
+  const id = Number(request.params.id);
+  const idExist = notes.find(n => n.id === id);
+
+  if(!idExist){
+    return response.status(404).end();
+  }
+
+  notes = notes.filter(n => n.id !== id);
+
+  const note = {
+    id,
+    content: body.content,
+    date: new Date(),
+    important: body.important || false,
+  }
+
+  notes = notes.concat(note);
+  response.json(note);
+});
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint'});
@@ -91,7 +123,9 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
-app.listen(PORT);
+app.listen(PORT, ()=> {
+  console.log(`Server running on port ${PORT}`);
+});
 console.log(`Server running on port ${PORT}`);
