@@ -1,0 +1,18 @@
+### create a note
+POST http://localhost:3001/api/notes
+content-type: application/json
+
+{
+    "content": "VS Rest code client is pretty good",
+    "important": false
+}
+
+### get all notes
+GET http://localhost:3001/api/notes
+
+### Retrieve a note
+
+GET http://localhost:3001/api/notes/2
+
+### Delete a note
+DELETE http://localhost:3001/api/notes/2

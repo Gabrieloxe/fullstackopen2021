@@ -26,6 +26,10 @@ let persons = [
   },
 ];
 
+app.get('/', (request, response) => {
+  response.json('Welcome to the API use /api/persons to get started');
+});
+
 app.get('/api/persons', (request, response) => {
   response.json(persons);
 });
