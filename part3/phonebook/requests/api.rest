@@ -51,4 +51,13 @@ content-type: application/json
 {
     "name": "Mary Poppendick",
     "number": "39-23-643122"
-  }
+}
+
+### Test Logging
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Lisa Marttinen",
+    "number": "040-23456"
+}
