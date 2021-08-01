@@ -20,7 +20,7 @@ const Person = mongoose.model('Person', personSchema);
 if (process.argv.length === 3) {
     Person.find({}).then(result => {
         result.forEach(person => {
-          console.log(person);
+          console.log(person.name, person.number);
         })
         mongoose.connection.close()
       })
@@ -35,6 +35,6 @@ if (process.argv.length === 3) {
         mongoose.connection.close();
     });
 } else {
-    console.log('Please provide password , name and number as arguments');
+    console.log('Please provide password , Name (enclosed in quotes if there is a space) and number as arguments');
     process.exit(1);
 }
