@@ -3,7 +3,7 @@ POST http://localhost:3001/api/notes
 content-type: application/json
 
 {
-    "content": "VS Rest code client is pretty good",
+    "content": "Test note of my backend functionality for note",
     "important": false
 }
 
@@ -17,7 +17,7 @@ content-type: application/json
 }
 
 ### Test put functionality
-PUT http://localhost:3001/api/notes/3
+PUT http://localhost:3001/api/notes/610677f334be9925bc049e90
 content-type: application/json
 
 {
@@ -30,8 +30,8 @@ content-type: application/json
 GET http://localhost:3001/api/notes
 
 ### Retrieve a note
-GET http://localhost:3001/api/notes/1
+GET http://localhost:3001/api/notes/610677f334be9925bc049e90
 
 
 ### Delete a note
-DELETE http://localhost:3001/api/notes/2
+DELETE http://localhost:3001/api/notes/60e0645ad000d4268156f52b

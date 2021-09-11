@@ -1,3 +1,5 @@
+require('dotenv').config();
+// Express
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -6,13 +8,16 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static('build'));
 
+// mongo DB connection
+const Note = require('./models/note');
+
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method);
   console.log('Path: ', request.path);
   console.log('Body: ', request.body);
   console.log('---');
   next();
-}
+};
 
 app.use(requestLogger);
 
@@ -42,90 +47,99 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/notes', (request, response) => {
-  response.json(notes);
+  try {
+    Note.find({}).then((notes) => {
+      response.json(notes);
+    });
+  } catch (e) {
+    console.log(`Error in ${req.method} route ${req.baseUrl}: ${e.message}`);
+    response.status(400).send({ message: e.message, status: false });
+  }
 });
 
-const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => n.id))
-    : 0
-  return maxId + 1
-}
-
 app.post('/api/notes', (request, response) => {
-  const body = request.body;
+  try {
+    const body = request.body;
+    if (!body.content) {
+      return response.status(400).json({
+        error: 'content missing',
+      });
+    }
 
-  if(!body.content) {
-    return response.status(400).json({
-      error: 'content missing'
+    const note = new Note({
+      content: body.content,
+      important: body.important || false,
+      date: new Date(),
     });
+
+    note.save().then((savedNote) => {
+      response.json(savedNote);
+    });
+  } catch (e) {
+    console.log(`Error in ${req.method} route ${req.baseUrl}: ${e.message}`);
+    response.status(400).send({ message: e.message, status: false });
   }
-
-  const note = {
-    content: body.content,
-    important: body.important || false,
-    date: new Date(),
-    id: generateId(),
-  };
-
-  notes = notes.concat(note);
-  response.json(note);
-})
+});
 
 app.get('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const note = notes.find((n) => n.id === id);
-  if (note) {
-    response.json(note);
-  } else {
-    response.status(404).end();
+  try {
+    const id = request.params.id;
+    Note.findById(id).then((note) => {
+      response.json(note);
+    });
+  } catch (e) {
+    console.log(`Error in ${req.method} route ${req.baseUrl}: ${e.message}`);
+    response.status(400).send({ message: e.message, status: false });
   }
 });
 
 app.delete('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id);
-    notes = notes.filter(note => note.id !== id);
-    response.status(204).end()
+  try {
+    const id = request.params.id;
+    Note.findByIdAndDelete(id).then((query) => {
+      response.status(204).end();
+    });
+  } catch (e) {
+    console.log(`Error in ${req.method} route ${req.baseUrl}: ${e.message}`);
+    response.status(400).send({ message: e.message, status: false });
+  }
 });
 
 app.put('/api/notes/:id', (request, response) => {
-  const body = request.body;
-
-  if(!body.content) {
-    return response.status(400).json({
-      error: 'content missing'
+  try {
+    const body = request.body;
+    if (!body.content) {
+      return response.status(400).json({
+        error: 'content missing',
+      });
+    }
+    const id = request.params.id;
+    const note = {
+      content: body.content,
+      date: new Date(),
+      important: body.important || false,
+    };
+    const options = { new: true };
+    Note.findOneAndReplace({ _id: id }, note, options).then((note) => {
+      response.json(note);
     });
+  } catch (e) {
+    console.log(
+      `Error in ${request.method} route ${request.baseUrl}: ${e.message}`
+    );
+    response.status(400).send({ message: e.message, status: false });
   }
-
-  const id = Number(request.params.id);
-  const idExist = notes.find(n => n.id === id);
-
-  if(!idExist){
-    response.status(404).end();
-  }
-
-  notes = notes.filter(n => n.id !== id);
-
-  const note = {
-    id,
-    content: body.content,
-    date: new Date(),
-    important: body.important || false,
-  }
-
-  notes = notes.concat(note);
-  response.json(note);
 });
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint'});
-}
+  response.status(404).send({ error: 'unknown endpoint' });
+};
 
 app.use(unknownEndpoint);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
-app.listen(PORT, ()=> {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 console.log(`Server running on port ${PORT}`);

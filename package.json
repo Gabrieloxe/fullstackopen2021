@@ -1,5 +1,23 @@
 {
   "dependencies": {
     "dotenv": "^10.0.0"
-  }
+  },
+  "name": "fullstackopen2021",
+  "description": "The fullstackopen2021 course by the university of helsinki.",
+  "version": "1.0.0",
+  "main": "config.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gabrieloxe/fullstackopen2021.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gabrieloxe/fullstackopen2021/issues"
+  },
+  "homepage": "https://github.com/Gabrieloxe/fullstackopen2021#readme"
 }
